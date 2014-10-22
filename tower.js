@@ -15,7 +15,6 @@ $(document).ready(function(){
                 3 = Start Round!
     */
 
-
     var game = {
         isMove: false,
         warMoves:25,
@@ -40,7 +39,6 @@ $(document).ready(function(){
             return -1;
         }
 	}
-
 
     //Finds distance from mouse to point
     function lineDistance( mouse, point2x, point2y )
@@ -73,9 +71,7 @@ $(document).ready(function(){
                 enemies[j][s].draw();
             }
         }
-
     }
-
 
 
     //Store the Mouse position in mousePos[x,y]
@@ -153,30 +149,28 @@ $(document).ready(function(){
                 enemies.push([]);
                 for(var k = 0; k < game.maxEnemies; k++){
                     enemies[p].push(new enemy(game.enemyHP, game.enemySP, spawners[p].xPos, spawners[p].yPos));
-
-
                 }
             }
             refresh();
 
-
+            window.requestAnimationFrame(fighto);
         }
     });
 
 
     //Animate the Action
-    function draw() {
-    requestAnimationFrame(draw);
-    // Drawing code goes here
-}
-draw();
 
 
+    function fighto() {
 
+      ///Action stuff goes here
+      for(var ko = 0; ko < game.maxEnemies; ko++){
+          enemies[ko].move();
+      };
+      refresh();
+      window.requestAnimationFrame(fighto);
 
-
-
-
+    }
 
 
     //Spawner Object///////////////
@@ -243,6 +237,7 @@ draw();
 	}
 
 
+/* Turning off because not neccisary for learning at the moment.
 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
@@ -274,7 +269,7 @@ draw();
             clearTimeout(id);
         };
 }());
-
+*/
 
 
 });
