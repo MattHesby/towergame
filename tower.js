@@ -21,13 +21,13 @@ $(document).ready(function(){
         warUpgrade:1,
         maxWarriors: 2,
         maxSpawners: 1,
-        maxEnemies: 20,
+        maxEnemies: 5,
         warDmg: 1,
         enemyHP: 2,
         enemySP: 5,
         state: 0,
         action: false,
-        roundKill: 0
+        killCount: 0
     }
 
 
@@ -74,7 +74,7 @@ $(document).ready(function(){
 
 
         for(var j = 0; j < spawners.length; j++){
-            for(var s = 0; s < enemies.length; s++){
+            for(var s = 0; s < enemies[j].length; s++){
                 enemies[j][s].draw();
             }
         }
@@ -156,6 +156,7 @@ $(document).ready(function(){
                 enemies.push([]);
                 for(var k = 0; k < game.maxEnemies; k++){
                   console.log(game.maxEnemies);
+                  console.log(k);
                     enemies[p].push(new enemy(game.enemyHP, game.enemySP, spawners[p].xPos, spawners[p].yPos));
                 }
             }
@@ -173,7 +174,7 @@ $(document).ready(function(){
 
       ///Action stuff goes here
     for(var j = 0; j < spawners.length; j++){
-      for(var s = 0; s < enemies.length; s++){
+      for(var s = 0; s < enemies[j].length; s++){
         enemies[j][s].move();
       }
     }
@@ -181,8 +182,9 @@ $(document).ready(function(){
     for(var j = 0; j < spawners.length; j++){
       for(var s = 0; s < enemies.length; s++){
         for(var q = 0; q < warriors.length; q++){
-          if(fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos, enemies[j][s].yPos) < 20){
+          if(fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos, enemies[j][s].yPos) < 25){
             warriors[q].shoot(enemies[j][s]);
+
           }
         }
       }
@@ -190,18 +192,21 @@ $(document).ready(function(){
 
     for(var j = 0; j < spawners.length; j++){
       for(var s = 0; s < enemies.length; s++){
-        if(enemies[j][s].hp === 0) enemies[j].splice(s , 1);
+        if(enemies[j][s].hp <= 0 || !enemies) {
+          if(enemies) enemies[j].splice(s , 1);
+          game.killCount++;
+        }
       }
     }
 
       refresh();
       //this should happen if there are no enemies left
-      if(game.roundKill === 20){
+      if(game.killCount === game.maxEnemies){
         $("#gameState").html("Game State: Spawn Warriors");
         $("#inst").html("Click to Create Warriors");
         game.state = 0;
         action = false;
-        window.cancelAnimationFrame();
+        window.cancelAnimationFrame(fighto);
       }
       window.requestAnimationFrame(fighto);
 
