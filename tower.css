@@ -7,13 +7,10 @@
 #mousePos{
     border:solid black 2px;
 }
-#debug{
-    border:solid black 2px;
-}
 
 #gameData{
     border:solid black 2px;
-    position:fixed;
+    position:absolute;
     top:80px;
     left:420px;
 

@@ -9,6 +9,7 @@ $(document).ready(function(){
     var warriors = [];
     var spawners = [];
     var temp3;
+
     /*game.state 0 = Spawn Warriors
                 1 = Upgrade Warriors
                 2 = Move Warriors
@@ -173,46 +174,49 @@ $(document).ready(function(){
     function fighto() {
 
       ///Action stuff goes here
-    for(var j = 0; j < spawners.length; j++){
-      for(var s = 0; s < enemies[j].length; s++){
-        enemies[j][s].move();
+      for(var j = 0; j < spawners.length; j++){
+        for(var s = 0; s < enemies[j].length; s++){
+          enemies[j][s].move();
+        }
       }
-    }
 
-    for(var j = 0; j < spawners.length; j++){
-      for(var s = 0; s < enemies.length; s++){
-        for(var q = 0; q < warriors.length; q++){
-          if(fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos, enemies[j][s].yPos) < 25){
-            warriors[q].shoot(enemies[j][s]);
-
+      for(var j = 0; j < spawners.length; j++){
+        for(var s = 0; s < enemies[j].length; s++){
+          for(var q = 0; q < warriors.length; q++){
+            if(fightDistance(warriors[q].xPos, warriors[q].yPos,
+              enemies[j][s].xPos, enemies[j][s].yPos) < 25){
+                warriors[q].shoot(enemies[j][s]);
+                console.log("pewpew");
+            }
           }
         }
       }
-    }
 
-    for(var j = 0; j < spawners.length; j++){
-      for(var s = 0; s < enemies.length; s++){
-        if(enemies[j][s].hp <= 0 || !enemies) {
-          if(enemies) enemies[j].splice(s , 1);
-          game.killCount++;
+      for(var j = 0; j < spawners.length; j++){
+        for(var s = 0; s < enemies[j].length; s++){
+            if(enemies[j][s].hp <= 0){
+              enemies[j].splice(s);
+              game.killCount++;
+              console.log("killcount" + game.killCount);
+            }
         }
       }
-    }
 
       refresh();
       //this should happen if there are no enemies left
-      if(game.killCount === game.maxEnemies){
+      if(game.killCount != game.maxEnemies){
+        window.requestAnimationFrame(fighto);
+      }
+      else{
         $("#gameState").html("Game State: Spawn Warriors");
         $("#inst").html("Click to Create Warriors");
         game.state = 0;
         action = false;
-        window.cancelAnimationFrame(fighto);
+        console.log("got to cancel area")
       }
-      window.requestAnimationFrame(fighto);
+
 
     }
-
-
     //Spawner Object///////////////
 	function spawner(xPos, yPos) {
 		this.xPos = xPos;
@@ -238,11 +242,12 @@ $(document).ready(function(){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.draw = function(){
-            ctx.beginPath();
-            ctx.arc(this.xPos,this.yPos,5,0,2*Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
-            ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(this.xPos,this.yPos,5,0,2*Math.PI);
+              ctx.fillStyle = "red";
+              ctx.fill();
+              ctx.stroke();
+
 		}
 	    this.takeDmg = function(dmg, wxPos, wyPos){
             ctx.beginPath();
@@ -254,7 +259,7 @@ $(document).ready(function(){
 		}
 		this.move = function(){
             var xRan = Math.floor(Math.random()*3 + 1)*plusNeg();
-            var yRan = Math.floor(Math.random()*3 + 1);
+            var yRan = Math.floor(1);
             this.xPos += xRan;
             this.yPos += yRan;
 		}
