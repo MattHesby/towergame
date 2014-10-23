@@ -25,7 +25,9 @@ $(document).ready(function(){
         warDmg: 1,
         enemyHP: 2,
         enemySP: 5,
-        state: 0
+        state: 0,
+        action: false,
+        roundKill: 0
     }
 
 
@@ -35,8 +37,7 @@ $(document).ready(function(){
 	}
 
     //Finds distance from mouse to point
-    function lineDistance( mouse, point2x, point2y )
-    {
+    function lineDistance( mouse, point2x, point2y ) {
         var xs = 0;
         var ys = 0;
 
@@ -44,6 +45,18 @@ $(document).ready(function(){
         xs = xs * xs;
 
         ys = point2y - mouse[1];
+        ys = ys * ys;
+        return Math.sqrt( xs + ys );
+    }
+
+    function fightDistance( wxPos, wyPos, exPos, eyPos ) {
+        var xs = 0;
+        var ys = 0;
+
+        xs = wxPos - exPos;
+        xs = xs * xs;
+
+        ys = wyPos - eyPos;
         ys = ys * ys;
         return Math.sqrt( xs + ys );
     }
@@ -137,16 +150,17 @@ $(document).ready(function(){
 
     //Start spawning enemies//////////////////////
     $("#startRound").click(function(){
-        if(game.state === 3){
+        if(game.state === 3 && game.action === false){
             spawners.push(new spawner(200, 20));
             for(var p = 0; p < spawners.length; p++){
                 enemies.push([]);
                 for(var k = 0; k < game.maxEnemies; k++){
+                  console.log(game.maxEnemies);
                     enemies[p].push(new enemy(game.enemyHP, game.enemySP, spawners[p].xPos, spawners[p].yPos));
                 }
             }
             refresh();
-
+            game.action = true;
             window.requestAnimationFrame(fighto);
         }
     });
@@ -161,9 +175,34 @@ $(document).ready(function(){
     for(var j = 0; j < spawners.length; j++){
       for(var s = 0; s < enemies.length; s++){
         enemies[j][s].move();
+      }
     }
-}
+
+    for(var j = 0; j < spawners.length; j++){
+      for(var s = 0; s < enemies.length; s++){
+        for(var q = 0; q < warriors.length; q++){
+          if(fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos, enemies[j][s].yPos) < 20){
+            warriors[q].shoot(enemies[j][s]);
+          }
+        }
+      }
+    }
+
+    for(var j = 0; j < spawners.length; j++){
+      for(var s = 0; s < enemies.length; s++){
+        if(enemies[j][s].hp === 0) enemies[j].splice(s , 1);
+      }
+    }
+
       refresh();
+      //this should happen if there are no enemies left
+      if(game.roundKill === 20){
+        $("#gameState").html("Game State: Spawn Warriors");
+        $("#inst").html("Click to Create Warriors");
+        game.state = 0;
+        action = false;
+        window.cancelAnimationFrame();
+      }
       window.requestAnimationFrame(fighto);
 
     }
@@ -200,8 +239,13 @@ $(document).ready(function(){
             ctx.fill();
             ctx.stroke();
 		}
-	    this.takeDmg = function(dmg){
+	    this.takeDmg = function(dmg, wxPos, wyPos){
+            ctx.beginPath();
+            ctx.moveTo(this.xPos, this.yPos);
+            ctx.lineTo(wxPos, wyPos)
+            ctx.stroke();
             this.hp = this.hp - dmg;
+            console.log(this.hp);
 		}
 		this.move = function(){
             var xRan = Math.floor(Math.random()*3 + 1)*plusNeg();
@@ -217,8 +261,8 @@ $(document).ready(function(){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.dmg = dmg;
-		this.shoot = function(){
-            enemy.takeDmg(this.dmg);
+		this.shoot = function(enemy){
+            enemy.takeDmg(this.dmg, this.xPos, this.yPos);
 		}
 		this.upgrade = function(){
             this.dmg++;
