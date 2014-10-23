@@ -31,13 +31,7 @@ $(document).ready(function(){
 
     //Function to create a random 1 or -1
 	function plusNeg() {
-        var ran = Math.Random();
-        if(ran >= 0.5){
-        return 1;
-        }
-        else{
-            return -1;
-        }
+    return Math.random() < 0.5 ? -1 : 1;
 	}
 
     //Finds distance from mouse to point
@@ -164,9 +158,11 @@ $(document).ready(function(){
     function fighto() {
 
       ///Action stuff goes here
-      for(var ko = 0; ko < game.maxEnemies; ko++){
-          enemies[ko].move();
-      };
+    for(var j = 0; j < spawners.length; j++){
+      for(var s = 0; s < enemies.length; s++){
+        enemies[j][s].move();
+    }
+}
       refresh();
       window.requestAnimationFrame(fighto);
 
