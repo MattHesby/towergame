@@ -156,8 +156,8 @@ $(document).ready(function(){
             for(var p = 0; p < spawners.length; p++){
                 enemies.push([]);
                 for(var k = 0; k < game.maxEnemies; k++){
-                  console.log(game.maxEnemies);
-                  console.log(k);
+                  console.log("maxEnemies " + game.maxEnemies);
+                  console.log("#enemies pushed " + k);
                     enemies[p].push(new enemy(game.enemyHP, game.enemySP, spawners[p].xPos, spawners[p].yPos));
                 }
             }
@@ -195,9 +195,9 @@ $(document).ready(function(){
       for(var j = 0; j < spawners.length; j++){
         for(var s = 0; s < enemies[j].length; s++){
             if(enemies[j][s].hp <= 0){
-              enemies[j].splice(s);
               game.killCount++;
               console.log("killcount" + game.killCount);
+              enemies[j].splice(s);
             }
         }
       }
