@@ -28,5 +28,12 @@
     border:solid black 2px;
     margin:20px;
     width:300px;
-
+    transition: all 0.2s linear;
+    background-color:#66C2FF;
+}
+.info:hover{
+  background-color:#008AE6;
+}
+.info:active{
+  background-color:#004C80;
 }
