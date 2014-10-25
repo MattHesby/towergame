@@ -20,7 +20,7 @@ $(document).ready(function() {
       warUpgrade: 1,
       maxWarriors: 2,
       maxSpawners: 1,
-      maxEnemies: 5,
+      maxEnemies: 50,
       warDmg: 1,
       enemyHP: 2,
       enemySP: 5,
