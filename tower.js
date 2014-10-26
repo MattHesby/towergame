@@ -15,7 +15,7 @@ $(document).ready(function() {
   var game = {
       isMove: false,
       //Higher warAtkSpd is worse
-      warAtkSpd: 500,
+      warAtkSpd: 2,
       warAtkDis: 20,
       warMoves: 25,
       warUpgrade: 1,
@@ -146,8 +146,8 @@ $(document).ready(function() {
       for (var p = 0; p < spawners.length; p++) {
         enemies.push([]);
         for (var k = 0; k < game.maxEnemies; k++) {
-          console.log("maxEnemies " + game.maxEnemies);
-          console.log("#enemies pushed " + k);
+          // console.log("maxEnemies " + game.maxEnemies);
+          // console.log("#enemies pushed " + k);
           enemies[p].push(new enemy(game.enemyHP, game.enemySP,
             spawners[p].xPos, spawners[p].yPos, true));
         }
@@ -174,7 +174,7 @@ $(document).ready(function() {
             if (fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos,
               enemies[j][s].yPos) < game.warAtkDis) {
               warriors[q].shoot(enemies[j][s]);
-              console.log("pewpew" + q + " " + s);
+              // console.log("pewpew" + q + " " + s);
             }
           }
         }
@@ -182,7 +182,7 @@ $(document).ready(function() {
       for (var i = 0; i < warriors.length; i++) {
         if (warriors[i].atkAv > 0) {
           warriors[i].atkAv = warriors[i].atkAv - 1;
-          console.log("peek");
+          console.log("Lower atk: " + warriors[i].atkAv);
         }
         // console.log("poke");
       }
@@ -190,8 +190,8 @@ $(document).ready(function() {
         for (var s = 0; s < enemies[j].length; s++) {
           if (enemies[j][s].hp <= 0) {
             game.killCount++;
-            console.log("killcount: " + game.killCount +
-            ", maxEnemies: "+ game.maxEnemies);
+            // console.log("killcount: " + game.killCount +
+            // ", maxEnemies: "+ game.maxEnemies);
             enemies[j].splice(s,1);
           }
         }
@@ -219,7 +219,7 @@ $(document).ready(function() {
       } else {
         if(game.playerLives > 0){
           window.cancelAnimationFrame(fighto);
-          console.log("got to cancel area");
+          // console.log("got to cancel area");
           newRound();
         }
         else{
@@ -313,9 +313,10 @@ $(document).ready(function() {
       this.dmg = dmg;
       this.atkAv = atkAv;
       this.shoot = function(enemy) {
-        if (atkAv === 0) {
-          enemy.takeDmg(this.dmg, this.xPos, this.yPos);
+        if (this.atkAv === 0) {
+          console.log("Shoot: "+ this.atkAv)
           this.atkAv = game.warAtkSpd;
+          enemy.takeDmg(this.dmg, this.xPos, this.yPos);
         }
       }
       this.upgrade = function() {
