@@ -15,12 +15,13 @@ $(document).ready(function() {
   var game = {
       isMove: false,
       //Higher warAtkSpd is worse
-      warAtkSpd: 5000000,
+      warAtkSpd: 500000000000000000000000000000000,
+      warAtkDis: 15,
       warMoves: 25,
       warUpgrade: 1,
       maxWarriors: 2,
       maxSpawners: 1,
-      maxEnemies: 50,
+      maxEnemies: 5,
       warDmg: 1,
       enemyHP: 2,
       enemySP: 5,
@@ -53,7 +54,9 @@ $(document).ready(function() {
       xs = xs * xs;
       ys = wyPos - eyPos;
       ys = ys * ys;
+      console.log(Math.sqrt(xs + ys));
       return Math.sqrt(xs + ys);
+
     }
     //Redraws the board
 
@@ -167,8 +170,8 @@ $(document).ready(function() {
           // console.log("s: " + s)
           for (var q = 0; q < warriors.length; q++) {
             // console.log("q: " + q)
-            if (fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j]
-              [s].xPos, enemies[j][s].yPos) < 25) {
+            if (fightDistance(warriors[q].xPos, warriors[q].yPos, enemies[j][s].xPos,
+              enemies[j][s].yPos) < game.warAtkDis) {
               warriors[q].shoot(enemies[j][s]);
               console.log("pewpew" + q + " " + s);
             }
@@ -178,14 +181,16 @@ $(document).ready(function() {
       for (var i = 0; i < warriors.length; i++) {
         if (warriors[i].atkAv > 0) {
           warriors[i].atkAv = warriors[i].atkAv - 1;
+          // console.log("peek");
         }
+        // console.log("poke");
       }
       for (var j = 0; j < spawners.length; j++) {
         for (var s = 0; s < enemies[j].length; s++) {
           if (enemies[j][s].hp <= 0) {
             game.killCount++;
             console.log("killcount: " + game.killCount + ", maxEnemies: "+ game.maxEnemies);
-            enemies[j].splice(s);
+            enemies[j].slice(s);
           }
         }
       }
@@ -245,7 +250,7 @@ $(document).ready(function() {
       }
       this.move = function() {
         var xRan = Math.floor(Math.random() * 3 + 1) * plusNeg();
-        var yRan = Math.floor(1);
+        var yRan = Math.floor(Math.random() * 3 + 1);
         this.xPos += xRan;
         this.yPos += yRan;
         // console.log(1);
@@ -272,6 +277,10 @@ $(document).ready(function() {
         ctx.arc(this.xPos, this.yPos, 5, 0, 2 * Math.PI);
         ctx.fillStyle = "blue";
         ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(this.xPos, this.yPos, game.warAtkDis, 0, 2 * Math.PI);
         ctx.stroke();
       }
     }
