@@ -16,7 +16,7 @@ $(document).ready(function() {
       isMove: false,
       //Higher warAtkSpd is worse
       warAtkSpd: 2,
-      warAtkDis: 20,
+      warAtkDis: 35,
       warMoves: 25,
       warUpgrade: 1,
       maxWarriors: 2,
@@ -239,7 +239,8 @@ $(document).ready(function() {
       game.warUpgrade++;
       game.isMove=false;
       game.action = false;
-      game.roundNum++
+      game.roundNum++;
+      $("#roundNum").html("Round Number: "+game.roundNum);
       game.maxEnemies += 5;
       game.maxSpawners ++;
       game.killCount = 0;
