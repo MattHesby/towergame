@@ -55,7 +55,7 @@ $(document).ready(function() {
       xs = xs * xs;
       ys = wyPos - eyPos;
       ys = ys * ys;
-      console.log(Math.sqrt(xs + ys));
+      // console.log(Math.sqrt(xs + ys));
       return Math.sqrt(xs + ys);
 
     }
@@ -79,8 +79,8 @@ $(document).ready(function() {
   var mousePos;
   canvas.addEventListener('mousemove', function(event) {
     mousePos = [event.pageX - 10, event.pageY - 10];
-    $("#mousePos").html("x: " + mousePos[0] + ", y: " + mousePos[1]);
-  }, false);
+    // $("#mousePos").html("x: " + mousePos[0] + ", y: " + mousePos[1]);
+}, false);
   /////////Write the game functions here////////////////
   $("#myCanvas").click(function() {
     //Spawning Warriors///////////////////
@@ -119,8 +119,8 @@ $(document).ready(function() {
     else if (game.state === 2) {
       if (game.isMove === false) {
         for (w = 0; w < warriors.length; w++) {
-          var temp2 = lineDistance(mousePos, warriors[w].xPos, warriors[
-            w].yPos);
+          var temp2 = lineDistance(mousePos, warriors[w].xPos,
+            warriors[w].yPos);
           if (temp2 <= 8) {
             $("#inst").html("Pick New Spot for Warrior");
             game.isMove = true;
@@ -128,8 +128,7 @@ $(document).ready(function() {
           }
         }
       } else {
-        if (lineDistance(mousePos, warriors[temp3].xPos, warriors[temp3]
-          .yPos) <= game.warMoves) {
+        if (lineDistance(mousePos, warriors[temp3].xPos, warriors[temp3].yPos) <= game.warMoves) {
           warriors[temp3].xPos = mousePos[0];
           warriors[temp3].yPos = mousePos[1];
           refresh();
@@ -198,7 +197,7 @@ $(document).ready(function() {
       }
       refresh();
       //this should happen if there are no enemies left
-      if (game.killCount < game.maxEnemies) {
+      if (game.killCount < game.maxEnemies * game.maxSpawners) {
         window.requestAnimationFrame(fighto);
       } else {
         window.cancelAnimationFrame(fighto);
@@ -215,16 +214,20 @@ $(document).ready(function() {
       game.state = 0;
       game.warUpgrade++;
       game.isMove=false;
-      action = false;
+      game.action = false;
+      game.roundNum++
+      game.maxEnemies += 5;
+      game.maxSpawners ++;
+      game.killCount = 0;
 
       //moves the current spawner//
 
-      if(roundNum%2 === 0){
-
-      }
-      else{
-
-      }
+      // if(game.roundNum%2 === 0){
+      //
+      // }
+      // else{
+      //
+      // }
 
     }
 
