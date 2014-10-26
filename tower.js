@@ -15,7 +15,7 @@ $(document).ready(function() {
   var game = {
       isMove: false,
       //Higher warAtkSpd is worse
-      warAtkSpd: 500000000000000000000000000000000,
+      warAtkSpd: 500,
       warAtkDis: 15,
       warMoves: 25,
       warUpgrade: 1,
@@ -181,7 +181,7 @@ $(document).ready(function() {
       for (var i = 0; i < warriors.length; i++) {
         if (warriors[i].atkAv > 0) {
           warriors[i].atkAv = warriors[i].atkAv - 1;
-          // console.log("peek");
+          console.log("peek");
         }
         // console.log("poke");
       }
@@ -189,8 +189,9 @@ $(document).ready(function() {
         for (var s = 0; s < enemies[j].length; s++) {
           if (enemies[j][s].hp <= 0) {
             game.killCount++;
-            console.log("killcount: " + game.killCount + ", maxEnemies: "+ game.maxEnemies);
-            enemies[j].slice(s);
+            console.log("killcount: " + game.killCount +
+            ", maxEnemies: "+ game.maxEnemies);
+            enemies[j].splice(s,1);
           }
         }
       }
