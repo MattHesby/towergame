@@ -16,7 +16,7 @@ $(document).ready(function() {
       isMove: false,
       //Higher warAtkSpd is worse
       warAtkSpd: 500,
-      warAtkDis: 15,
+      warAtkDis: 20,
       warMoves: 25,
       warUpgrade: 1,
       maxWarriors: 2,
@@ -29,6 +29,7 @@ $(document).ready(function() {
       action: false,
       killCount: 0,
       DoA: true,
+      roundNum: 1
     }
     //Function to create a random 1 or -1
 
@@ -200,13 +201,33 @@ $(document).ready(function() {
       if (game.killCount < game.maxEnemies) {
         window.requestAnimationFrame(fighto);
       } else {
-        $("#gameState").html("Game State: Spawn Warriors");
-        $("#inst").html("Click to Create Warriors");
-        game.state = 0;
-        action = false;
-        console.log("got to cancel area")
+        window.cancelAnimationFrame(fighto);
+        console.log("got to cancel area");
+        newRound();
+
       }
     }
+    //Start a new round//
+    function newRound(){
+      game.maxWarriors++;
+      $("#gameState").html("Game State: Spawn Warriors");
+      $("#inst").html("Click to Create Warriors");
+      game.state = 0;
+      game.warUpgrade++;
+      game.isMove=false;
+      action = false;
+
+      //moves the current spawner//
+
+      if(roundNum%2 === 0){
+
+      }
+      else{
+
+      }
+
+    }
+
     //Spawner Object///////////////
 
   function spawner(xPos, yPos) {
