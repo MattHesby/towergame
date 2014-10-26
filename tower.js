@@ -205,19 +205,6 @@ $(document).ready(function() {
               game.playerLives--;
               $("#lives").html("Live left: " + game.playerLives);
               if(game.playerLives <= 0){
-                window.cancelAnimationFrame(fighto);
-                ctx.font="20px Georgia";
-                ctx.fillText("Game Over!",10,50);
-                ctx.font="30px Verdana";
-                // Create gradient
-                var gradient=ctx.createLinearGradient(0,0,c.width,0);
-                gradient.addColorStop("0","magenta");
-                gradient.addColorStop("0.5","blue");
-                gradient.addColorStop("1.0","red");
-                // Fill with gradient
-                ctx.fillStyle=gradient;
-                ctx.fillText("Big smile!",10,90);
-
               }
             }
         }
@@ -227,12 +214,19 @@ $(document).ready(function() {
 
       refresh();
       //this should happen if there are no enemies left
-      if (game.killCount < game.maxEnemies * game.maxSpawners) {
+      if (game.killCount < game.maxEnemies * game.maxSpawners && game.playerLives > 0) {
         window.requestAnimationFrame(fighto);
       } else {
-        window.cancelAnimationFrame(fighto);
-        console.log("got to cancel area");
-        newRound();
+        if(game.playerLives > 0){
+          window.cancelAnimationFrame(fighto);
+          console.log("got to cancel area");
+          newRound();
+        }
+        else{
+          ctx.fillStyle = "blue";
+          ctx.font = "bold 16px Arial";
+          ctx.fillText("Game Over!", 100, 100);
+        }
 
       }
     }
