@@ -21,7 +21,7 @@ $(document).ready(function() {
       warUpgrade: 1,
       maxWarriors: 2,
       maxSpawners: 1,
-      maxEnemies: 5,
+      maxEnemies: 50,
       warDmg: 1,
       enemyHP: 2,
       enemySP: 5,
@@ -29,7 +29,8 @@ $(document).ready(function() {
       action: false,
       killCount: 0,
       DoA: true,
-      roundNum: 1
+      roundNum: 1,
+      playerLives: 10
     }
     //Function to create a random 1 or -1
 
@@ -195,6 +196,35 @@ $(document).ready(function() {
           }
         }
       }
+
+      for (var j = 0; j < spawners.length; j++) {
+        for (var s = 0; s < enemies[j].length; s++) {
+            if(enemies[j][s].yPos >= canvas.height){
+              game.killCount++;
+              enemies[j].splice(s,1);
+              game.playerLives--;
+              $("#lives").html("Live left: " + game.playerLives);
+              if(game.playerLives <= 0){
+                window.cancelAnimationFrame(fighto);
+                ctx.font="20px Georgia";
+                ctx.fillText("Game Over!",10,50);
+                ctx.font="30px Verdana";
+                // Create gradient
+                var gradient=ctx.createLinearGradient(0,0,c.width,0);
+                gradient.addColorStop("0","magenta");
+                gradient.addColorStop("0.5","blue");
+                gradient.addColorStop("1.0","red");
+                // Fill with gradient
+                ctx.fillStyle=gradient;
+                ctx.fillText("Big smile!",10,90);
+
+              }
+            }
+        }
+      }
+
+
+
       refresh();
       //this should happen if there are no enemies left
       if (game.killCount < game.maxEnemies * game.maxSpawners) {
