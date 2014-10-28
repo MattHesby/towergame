@@ -86,18 +86,28 @@ $(document).ready(function() {
   $("#myCanvas").click(function() {
     //Spawning Warriors///////////////////
     if (game.state === 0) {
-      if (warriors.length < game.maxWarriors) {
-        warriors.push(new warrior(mousePos[0], mousePos[1], game.warDmg,
-          0))
-        refresh();
-        if (warriors.length === game.maxWarriors) {
-          $("#gameState").html("Upgrade Warriors");
-          game.state++;
-          $("#inst").html("Click " + game.warUpgrade +
-            " warrior(s) to increase their damage");
+      for(var i; i < warriors[i].length; i++){
+        if(mousePos[0] === warriors[i].xPos &&
+          mousePos[1] === warriors[i].yPos){
+          //Choose a different spot!
         }
+
+        else{
+          if (warriors.length < game.maxWarriors) {
+            warriors.push(new warrior(mousePos[0], mousePos[1], game.warDmg,0))
+          refresh();
+          }
+          if (warriors.length === game.maxWarriors) {
+            $("#gameState").html("Upgrade Warriors");
+            game.state++;
+            $("#inst").html("Click " + game.warUpgrade +
+              " warrior(s) to increase their damage");
+          }
+        }
+
       }
     }
+
     //Upgrade Warriors//////////////////
     else if (game.state === 1) {
       for (var z = 0; z < warriors.length; z++) {
