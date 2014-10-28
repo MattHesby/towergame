@@ -86,13 +86,17 @@ $(document).ready(function() {
   $("#myCanvas").click(function() {
     //Spawning Warriors///////////////////
     if (game.state === 0) {
-      for(var i; i < warriors[i].length; i++){
-        if(mousePos[0] === warriors[i].xPos &&
-          mousePos[1] === warriors[i].yPos){
-          //Choose a different spot!
-        }
-
-        else{
+      // for(var i; i < warriors.length; i++){
+        // if(mousePos[0] === warriors[i].xPos &&
+        //   mousePos[1] === warriors[i].yPos){
+        //   //Choose a different spot!
+        //   ctx.fillStyle = "blue";
+        //   ctx.font = "bold 16px Arial";
+        //   ctx.fillText("Choose a different spot", 100, 100);
+        //
+        // }
+        //
+        // else{
           if (warriors.length < game.maxWarriors) {
             warriors.push(new warrior(mousePos[0], mousePos[1], game.warDmg,0))
           refresh();
@@ -103,9 +107,9 @@ $(document).ready(function() {
             $("#inst").html("Click " + game.warUpgrade +
               " warrior(s) to increase their damage");
           }
-        }
+        // }
 
-      }
+      // }
     }
 
     //Upgrade Warriors//////////////////
