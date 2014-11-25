@@ -29,7 +29,7 @@ $(document).ready(function() {
           //Higher warAtkSpd is worse
           warAtkSpd: 2,
           warAtkDis: 35,
-          warMoves: 25,
+          warMoves: 35,
           warUpgrade: 1,
           maxWarriors: 2,
           maxSpawners: 1,
