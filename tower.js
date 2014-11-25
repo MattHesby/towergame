@@ -127,10 +127,18 @@ $(document).ready(function() {
             refresh();
           }
           if (warriors.length === game.maxWarriors) {
-            $("#gameState").html("Upgrade Warriors");
-            game.state++;
-            $("#inst").html("Click " + game.warUpgrade +
+            if(game.roundNum%2 != 0){
+              $("#gameState").html("Upgrade Warriors");
+              game.state++;
+              $("#inst").html("Click " + game.warUpgrade +
               " warrior to increase their damage");
+            }
+            else{
+              game.state+=2;
+              $("#gameState").html("Move Warriors: " + game.warMoves);
+              $("#inst").html("Click a warrior to move.");
+            }
+
           }
           // }
           // }
@@ -152,6 +160,7 @@ $(document).ready(function() {
               }
             }
           }
+          refresh();
         }
         //Move Warriors//////////////////////////
         else if (game.state === 2) {
@@ -267,9 +276,11 @@ $(document).ready(function() {
       function newRound() {
         game.maxWarriors++;
         $("#gameState").html("Game State: Spawn Warriors");
-        $("#inst").html("Click to Create Warriors");
+        $("#inst").html("Click to Create a Warrior");
         game.state = 0;
-        game.warUpgrade++;
+        if(game.roundNum%2 === 0){
+          game.warUpgrade++;
+        }
         game.isMove = false;
         game.action = false;
         game.roundNum++;
@@ -365,7 +376,11 @@ $(document).ready(function() {
             this.draw = function() {
               ctx.beginPath();
               ctx.arc(this.xPos, this.yPos, 5, 0, 2 * Math.PI);
-              ctx.fillStyle = "blue";
+
+              if(this.dmg === 1){
+                ctx.fillStyle = "green";
+              }
+              else ctx.fillStyle = "darkblue";
               ctx.fill();
               ctx.stroke();
               ctx.beginPath();
