@@ -2,6 +2,16 @@ $(document).ready(function() {
   //Canvas stuff
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, 400, 400);
+  ctx.beginPath();
+  ctx.rect(0, 0, 400, 150);
+  ctx.fillStyle = 'red';
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.rect(0, 150,400,400);
+  ctx.fillStyle = 'aqua';
+  ctx.fill();
   //Arrays to fill with the different objects
   var enemies = [[]];
   var warriors = [];
@@ -21,7 +31,7 @@ $(document).ready(function() {
       warUpgrade: 1,
       maxWarriors: 2,
       maxSpawners: 1,
-      maxEnemies: 10,
+      maxEnemies: 6,
       warDmg: 1,
       enemyHP: 2,
       enemySP: 5,
@@ -64,6 +74,17 @@ $(document).ready(function() {
 
   function refresh() {
       ctx.clearRect(0, 0, 400, 400);
+      ctx.beginPath();
+      ctx.rect(0, 0, 400, 150);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.rect(0, 150,400,400);
+      ctx.fillStyle = 'aqua';
+      ctx.fill();
+
+
       for (var q = 0; q < warriors.length; q++) {
         warriors[q].draw();
       }
@@ -80,7 +101,7 @@ $(document).ready(function() {
   var mousePos;
   canvas.addEventListener('mousemove', function(event) {
     mousePos = [event.pageX - 10, event.pageY - 10];
-    // $("#mousePos").html("x: " + mousePos[0] + ", y: " + mousePos[1]);
+    $("#mousePos").html("x: " + mousePos[0] + ", y: " + mousePos[1]);
 }, false);
   /////////Write the game functions here////////////////
   $("#myCanvas").click(function() {
@@ -97,7 +118,7 @@ $(document).ready(function() {
         // }
         //
         // else{
-          if (warriors.length < game.maxWarriors) {
+          if (warriors.length < game.maxWarriors  && mousePos[1] > 150) {
             warriors.push(new warrior(mousePos[0], mousePos[1], game.warDmg,0))
           refresh();
           }
@@ -239,7 +260,7 @@ $(document).ready(function() {
         else{
           ctx.fillStyle = "blue";
           ctx.font = "bold 16px Arial";
-          ctx.fillText("Game Over!", 100, 100);
+          ctx.fillText("Game Lost!", 100, 100);
         }
 
       }
@@ -255,9 +276,25 @@ $(document).ready(function() {
       game.action = false;
       game.roundNum++;
       $("#roundNum").html("Round Number: "+game.roundNum);
-      game.maxEnemies += 5;
+      game.maxEnemies += 1;
       game.maxSpawners ++;
       game.killCount = 0;
+      for(var i = 0; i < spawners.length; i++){
+        if(i%2 === 0){
+          spawners[i].xPos -= 10;
+        }
+        else{
+          spawners[i].xPos += 10;
+        }
+
+        if(spawners[i].xPos <= 0 || spawners[i].xPos >= 400){
+          ctx.fillStyle = "blue";
+          ctx.font = "bold 16px Arial";
+          ctx.fillText("You Win!", 100, 100);
+        }
+
+      }
+      refresh();
 
       //moves the current spawner//
 
