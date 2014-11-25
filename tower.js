@@ -287,13 +287,6 @@ $(document).ready(function() {
           }
 
           refresh();
-          //moves the current spawner//
-          // if(game.roundNum%2 === 0){
-          //
-          // }
-          // else{
-          //
-          // }
         }
         spawners.push(new spawner(200, 20));
         refresh();
