@@ -98,9 +98,14 @@ $(document).ready(function() {
         //Store the Mouse position in mousePos[x,y]
       var mousePos;
       canvas.addEventListener('mousemove', function(event) {
-        mousePos = [event.pageX - 10, event.pageY - 10];
+        var rect = canvas.getBoundingClientRect();
+        mousePos = [event.pageX - rect.left, event.pageY - rect.top];
         $("#mousePos").html("x: " + mousePos[0] + ", y: " + mousePos[1]);
       }, false);
+
+
+
+
       /////////Write the game functions here////////////////
       $("#myCanvas").click(function() {
         //Spawning Warriors///////////////////
@@ -125,7 +130,7 @@ $(document).ready(function() {
             $("#gameState").html("Upgrade Warriors");
             game.state++;
             $("#inst").html("Click " + game.warUpgrade +
-              " warrior(s) to increase their damage");
+              " warrior to increase their damage");
           }
           // }
           // }

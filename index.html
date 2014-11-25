@@ -6,22 +6,37 @@
         <script src='tower.js'></script>
 </head>
 <body>
-
+<div class="container">
     <canvas  id="myCanvas" height="400px" width="400px"></canvas>
-
+</div>
 		<!-- <div class="info" id ="newGame">Start New Game</div> -->
     <div id="gameData">
-        <div class="info" id="startRound">Start Round</div>
-        <div class="info" id="roundNum">Round Number: 1</div>
-        <div class="info" id="gameState">Game State: Spawn Warrior</div>
+        <div class="info button" id="startRound">Start Round</div>
+
+
+				<div class="info" id="roundNum">Round Number: 1</div>
+        <div class="info" id="gameState" style="display:none">Game State: Spawn Warrior</div>
         <div class="info" id="inst"> Click to create Warriors </div>
 				<div class="info" id="lives">  Lives Left: 10</div>
     </div>
 
 
-    <div id="mousePos">asdf</div>
+<div id="instructions">
+	<h3 id="instbut"> Instructions </h3>
+	<p> For round 1, you will be given 2 Warriors to place.  Each consecutive round you will be given only 1 warrior.  Upgrading a warrior makes them go from 2 hits to kill, to 1 hit to kill.  Warriors can move as far as they can shoot (within the range of the circle).  You must survive long enough that one of the spawners(yellow circle) reaches the side of the play area.  You must stop the enemies from getting to the bottom of the play area.</p> <br>
+</div>
+<div id="list">
+	<h4> Steps</h4>
+	<ol>
+		<li> Click on the screen to Place Warriors in the blue zone</li>
+		<li>Click on a warrior to increase his dmg</li>
+		<li>Click on a warrior you wish to move, then click where you want to move him</li>
+		<li>Click on Start Round to release the bad guys</li>
+	</ol>
+</div>
 
-		<!-- <img id="tardis" src="http://th03.deviantart.net/fs70/PRE/i/2012/330/4/9/tardis_by_corrosivelyclassic-d5m79uf.png" /> -->
+
+    <!-- <div id="mousePos">asdf</div> -->
 
 </body>
 </html>
