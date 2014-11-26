@@ -7,7 +7,7 @@ $(document).ready(function() {
       var spawners = [];
       var temp3;
       spawners.push(new spawner(200, 20));
-      //Canvas stuff
+      //Canvas stuff & setting up the screen
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, 400, 400);
@@ -19,6 +19,11 @@ $(document).ready(function() {
       ctx.rect(0, 150, 400, 400);
       ctx.fillStyle = 'aqua';
       ctx.fill();
+      ctx.beginPath();
+      ctx.arc(200, 20, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.stroke();
       /* game.state 0 = Spawn Warriors
 								1 = Upgrade Warriors
 								2 = Move Warriors
@@ -148,7 +153,7 @@ $(document).ready(function() {
           for (var z = 0; z < warriors.length; z++) {
             var temp = lineDistance(mousePos, warriors[z].xPos, warriors[z]
               .yPos);
-            if (temp < 8) {
+            if (temp < 8 && warriors[z].dmg === 1) {
               warriors[z].dmg++;
               game.warUpgrade = game.warUpgrade - 1;
               $("#gameState").html("Upgrade Warriors (" + game.warUpgrade +
@@ -168,7 +173,7 @@ $(document).ready(function() {
             for (w = 0; w < warriors.length; w++) {
               var temp2 = lineDistance(mousePos, warriors[w].xPos, warriors[
                 w].yPos);
-              if (temp2 <= 8) {
+              if (temp2 <= 5) {
                 $("#inst").html("Pick New Spot for Warrior");
                 game.isMove = true;
                 temp3 = w;
@@ -176,7 +181,7 @@ $(document).ready(function() {
             }
           } else {
             if (lineDistance(mousePos, warriors[temp3].xPos, warriors[temp3]
-              .yPos) <= game.warMoves) {
+              .yPos) <= game.warMoves && mousePos[1] >= 150) {
               warriors[temp3].xPos = mousePos[0];
               warriors[temp3].yPos = mousePos[1];
               refresh();
