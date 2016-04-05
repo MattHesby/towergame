@@ -45,7 +45,8 @@ top: -400px;
 }
 
 #instTitle{
-  background-Color: lightgreen;  
+  color:lightgreen;
+  background-Color: black;
 }
 
 .info{
